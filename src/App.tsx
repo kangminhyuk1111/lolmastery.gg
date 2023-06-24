@@ -1,17 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
   const [summonerPid, setSummonerPid] = useState<any[]>([]);
   const [summonerName, setSummonerName] = useState();
   const [championData, setChampionData] = useState<any[]>();
-  const [champObjValue, setChampObjValue] = useState({});
   const [champKey, setChampKey] = useState();
-
-  type championsData = {
-    [key: string]: any;
-    name: string;
-  }
 
   const getSummonerInfo = (summonerName: string | undefined): void => {
     axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.REACT_APP_RIOT_API_KEY}`)
@@ -20,6 +15,11 @@ function App() {
           setSummonerPid(res.data);
           console.log(res);
         })
+      })
+      .catch((err) => {
+        if (err) {
+          console.log('잘못된 요청입니다.')
+        }
       });
   }
   const versionChampId = () => {
@@ -31,13 +31,14 @@ function App() {
       champions.map((data: any) => {
         let keys = data.key;
         let names = data.name;
-        newObj[keys] = names;
+        newObj[keys] = { names: names, imgs: data.image.full };
       })
       setChampKey(newObj);
     })
   }
 
   const downloadImgs = () => {
+    const savePath = `${process.env.PUBLIC_URL}/champImg`;
   }
 
   const inputChange = (e: any) => {
@@ -57,11 +58,13 @@ function App() {
         <button onClick={() => getSummonerInfo(summonerName)}>검색</button>
       </div>
       {summonerPid ? summonerPid.map((data: any, idx: any) => {
+        console.log(champKey ? champKey[1]['names'] : null)
         return (
           <>
             <ul>
+              <li>{champKey ? champKey[data.championId]['imgs'] : null}</li>
               <li>
-                {champKey ? champKey[data.championId] : null}
+                {champKey ? champKey[data.championId]['names'] : null}
               </li>
               <li>
                 {data.championPoints}
