@@ -4,7 +4,7 @@
 
 Live Link : 개발진행중
 
-Github Repository : https://github.com/kangminhyuk1111/lolmastery.gg
+Github Repository : https://github.com/kangminhyuk1111/lolmastery.gg/
 
 ## 역할분담
 
