@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button, TextField} from '@mui/material';
 
+
 function App() {
     const [summonerPid, setSummonerPid] = useState<string[]>([]);
     const [summonerName, setSummonerName] = useState();
@@ -18,27 +19,28 @@ function App() {
 
     const getSummonerInfo = (summonerName: string | undefined): void => {
         axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
-            .then((res: AxiosResponse<any, any>) => {
+            .then((res: AxiosResponse<any, any>): void => {
                 axios.get(`https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`).then((res) => {
                     setSummonerPid(res.data);
-                    console.log(res.data)
                 })
             })
-            .catch((err) => {
+            .catch((err): void => {
                 if (err) {
                     console.log('잘못된 요청입니다.')
                 }
             });
     }
-    const versionChampId = (): void => {
-        axios.get('https://ddragon.leagueoflegends.com/cdn/13.6.1/data/ko_KR/champion.json').then((res: AxiosResponse<any, any>): void => {
+    const versionChampId = () => {
+        axios.get('https://ddragon.leagueoflegends.com/cdn/13.6.1/data/ko_KR/champion.json').then((res) => {
             let champions: any[] = Object.values(res.data.data);
             let newObj: any = {};
-            champions.map((data: any) => {
+            champions.map((data: any): void => {
                 let keys = data.key;
                 let names = data.name;
+                console.log(keys + " : " + names)
                 newObj[keys] = {names: names, img: data.image.full};
             })
+            console.log(newObj)
             setChampKey(newObj);
         })
     }
@@ -74,20 +76,24 @@ function App() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {summonerPid.map((data: any, idx: number) => (
+                        {summonerPid ? summonerPid.map((data: any, idx: number) => (
                             <TableRow
                                 key={idx}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                {/*<TableCell component="th" scope="row">*/}
-                                {/*  {champKey ? <img src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`} alt={`${champKey[data.championId]['img']}`} /> : null}*/}
-                                {/*</TableCell>*/}
-                                {/*<TableCell align="right">{champKey ? champKey[data.championId]['names'] : null}</TableCell>*/}
-                                {/*<TableCell align="right">{data.championLevel}</TableCell>*/}
-                                {/*<TableCell align="right">{data.championPoints}</TableCell>*/}
-                                {/*<TableCell align="right">{data.protein}</TableCell>*/}
+                                <TableCell component="th" scope="row">
+                                    {champKey && champKey[data.championId] && champKey[data.championId]['img'] ? <img
+                                        src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`}/> : null}
+                                </TableCell>
+                                <TableCell align="right">{champKey && champKey[data.championId] && champKey[data.championId]['names']}</TableCell>
+                                <TableCell align="right">{data.championLevel}</TableCell>
+                                <TableCell align="right">{(() => {
+                                    const points = data.championPoints.toLocaleString(); // 콤마 추가
+                                    return points;
+                                })()}</TableCell>
+                                <TableCell align="right">{data.protein}</TableCell>
                             </TableRow>
-                        ))}
+                        )) : null}
                     </TableBody>
                 </Table>
             </TableContainer>
