@@ -9,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button, TextField} from '@mui/material';
+import ButtonAppBar from "./component/Header";
+import {MasteryChart} from "./component/MasteryChart";
 
 
 function App() {
@@ -17,9 +19,10 @@ function App() {
     const [champKey, setChampKey] = useState();
     const apikey: string | undefined = process.env.REACT_APP_RIOT_API_KEY
 
-    const getSummonerInfo = (summonerName: string | undefined): void => {
+    const getSummonerMasteryInfo = (summonerName: string | undefined): void => {
         axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
             .then((res: AxiosResponse<any, any>): void => {
+                console.log(res.data.puuid)
                 axios.get(`https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`).then((res) => {
                     setSummonerPid(res.data);
                 })
@@ -37,10 +40,8 @@ function App() {
             champions.map((data: any): void => {
                 let keys = data.key;
                 let names = data.name;
-                console.log(keys + " : " + names)
                 newObj[keys] = {names: names, img: data.image.full};
             })
-            console.log(newObj)
             setChampKey(newObj);
         })
     }
@@ -55,14 +56,18 @@ function App() {
 
     return (
         <div className="App">
+            <ButtonAppBar/>
             <div className='main-wrapper'>
                 <img src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`}/>
                 <h1>LOL Champion Mastery</h1>
                 <h2>당신의 리그오브레전드 챔피언 숙련도를 검색하세요</h2>
                 <div className='summoner-name'>
-                    <TextField label="소환사이름" variant="outlined" type='text' id='summonerName' onChange={inputChange}/>
-                    <Button variant="contained" onClick={() => getSummonerInfo(summonerName)}>검색</Button>
+                    <TextField size='small' label="소환사이름" variant="outlined" type='text' id='input-summoner' onChange={inputChange}/>
+                    <Button variant="contained" onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
                 </div>
+            </div>
+            <div className='main-wrapper'>
+                <MasteryChart props={summonerPid.slice(0,10)}/>
             </div>
             <TableContainer component={Paper} id='tb-container'>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -73,6 +78,7 @@ function App() {
                             <TableCell align="right">숙련도 레벨</TableCell>
                             <TableCell align="right">숙련도 점수</TableCell>
                             <TableCell align="right">최근 플레이</TableCell>
+                            <TableCell align="right">상자 획득 여부</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -92,6 +98,8 @@ function App() {
                                     return points;
                                 })()}</TableCell>
                                 <TableCell align="right">{data.protein}</TableCell>
+                                <TableCell align="right">{data.chestGranted ? "가능" : "불가능"}</TableCell>
+
                             </TableRow>
                         )) : null}
                     </TableBody>
