@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -9,19 +9,18 @@ interface Champion {
     // 다른 필드들도 정의할 수 있음
 }
 
+interface ChartObject {
+    labels: any,
+    datasets: any,
+}
+
 export function MasteryChart(props:any) {
-    useEffect(() => {
-        props.props.forEach((x:Champion) => {
-            // @ts-ignore
-            return data.labels.push(x.championId)
-        })
-    }, []);
-    const data = {
+    const [dataState, setDataState] = useState<ChartObject>({  // 초기 상태를 빈 객체로 설정
         labels: [],
         datasets: [
             {
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: '',
+                data: [],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -41,7 +40,55 @@ export function MasteryChart(props:any) {
                 borderWidth: 1,
             },
         ],
+    })
+    let championData = props
+
+    const updateData = async (championData:any) => {
+        const newData: ChartObject = {
+            labels: championData.props.map((val:any) => val.champId), // 원하는 라벨 값들로 대체
+            datasets: [
+                {
+                    label: 'Points',
+                    data: championData.props.map((val:any) => {
+                        return val.points
+                    }),  // 원하는 데이터 값들로 대체
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderWidth: 1,
+                },
+            ],
+        };
+
+        console.log(newData)
+
+        setDataState(newData); // dataState를 새로운 데이터로 업데이트
     };
 
-    return <Doughnut data={data} />;
+    useEffect(() => {
+        updateData(championData);
+    }, [championData]);
+
+    return <Doughnut data={dataState} />;
 }

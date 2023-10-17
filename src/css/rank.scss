@@ -1,0 +1,54 @@
+.rank-division {
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+
+  .rank-1, .rank-2, .rank-3 {
+    flex: 1;
+    height: 100%;
+  }
+
+  .rank-1 {
+    .rank-champInfo1{
+      height: 40%;
+    }
+    .rank-text {
+      width: 60%;
+      height: 60%;
+      background-color: #FFD770;
+      margin: 0 auto;
+
+    }
+  }
+
+  .rank-2 {
+    .rank-champInfo2{
+      height: 50%;
+    }
+    .rank-text {
+      width: 60%;
+      height: 50%;
+      background-color: #C0C0C0;
+      margin: 0 auto;
+
+
+    }
+  }
+
+  .rank-3 {
+    .rank-champInfo3{
+      height: 60%;
+    }
+    .rank-text {
+      width: 60%;
+      height: 40%;
+      background-color: #CD7F32;
+      margin: 0 auto;
+
+    }
+  }
+}

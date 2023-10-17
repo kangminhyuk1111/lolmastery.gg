@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import {Button, TextField} from '@mui/material';
 import ButtonAppBar from "./component/Header";
 import {MasteryChart} from "./component/MasteryChart";
+import Rank from "./component/rank";
 
 
 function App() {
@@ -66,8 +67,8 @@ function App() {
                     <Button variant="contained" onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
                 </div>
             </div>
-            <div className='main-wrapper'>
-                <MasteryChart props={summonerPid.slice(0,10)}/>
+            <div className='wrapper-rank'>
+                <Rank/>
             </div>
             <TableContainer component={Paper} id='tb-container'>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
