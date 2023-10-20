@@ -3,14 +3,16 @@ import {useEffect, useState} from 'react';
 import './App.scss';
 import {Button, TextField} from '@mui/material';
 import ButtonAppBar from "./component/Header";
+import Loading from "./component/Loading";
 
 function App() {
     const [summonerPid, setSummonerPid] = useState<string[]>([]);
     const [summonerName, setSummonerName] = useState();
     const [champKey, setChampKey] = useState();
+    const [loadingState, setLoadingState] = useState<boolean>(false)
     const apikey: string | undefined = process.env.REACT_APP_RIOT_API_KEY
 
-    function convertUnixTimestamp(unixTimestamp:number): string {
+    function convertUnixTimestamp(unixTimestamp: number): string {
         // 밀리초로 변환
         const milliseconds: number = unixTimestamp;
 
@@ -18,14 +20,14 @@ function App() {
         const dateObject: Date = new Date(milliseconds);
 
         // 년, 월, 일, 시간, 분 추출
-        const year:number = dateObject.getFullYear();
-        let month:number|string = dateObject.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
-        const day:number = dateObject.getDate();
-        const hours:number = dateObject.getHours();
-        const minutes:number = dateObject.getMinutes();
+        const year: number = dateObject.getFullYear();
+        let month: number | string = dateObject.getMonth() + 1;
+        const day: number = dateObject.getDate();
+        const hours: number = dateObject.getHours();
+        const minutes: number = dateObject.getMinutes();
 
-        if(month < 10){
-            month = "0"+month
+        if (month < 10) {
+            month = "0" + month
         }
 
         // 결과 반환
@@ -34,17 +36,23 @@ function App() {
     }
 
     const getSummonerMasteryInfo = (summonerName: string | undefined): void => {
+        setLoadingState(true)
         axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
             .then((res: AxiosResponse<any, any>): void => {
                 console.log(res.data.puuid)
-                axios.get(`https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`).then((res) => {
-                    setSummonerPid(res.data);
-                    console.log(res.data)
-                })
+                axios.get(`https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`)
+                    .then((res: AxiosResponse<any, any>) => {
+                        setSummonerPid(res.data);
+                        setLoadingState(false);
+                    })
             })
-            .catch((err): void => {
-                if (err) {
-                    console.log('잘못된 요청입니다.')
+            .catch((error): void => {
+                if (error.response && error.response.status === 404) {
+                    console.error('잘못된 요청입니다.', error)
+                    setLoadingState(false);
+                } else {
+                    alert('존재하지않는 소환사 입니다.');
+                    setLoadingState(false);
                 }
             });
     }
@@ -82,9 +90,6 @@ function App() {
                     <Button variant="contained" onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
                 </div>
             </div>
-            {/*<div className='wrapper-rank'>*/}
-            {/*    <Rank/>*/}
-            {/*</div>*/}
             <div className='box'>
                 {summonerPid ? summonerPid.map((data: any, idx: number) => (
                     <div className='list'>
@@ -94,7 +99,7 @@ function App() {
                                 src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`}/> : null}
                         </div>
                         <div className='content'>
-                            <h2 className='rank'><small>#</small>{idx+1}</h2>
+                            {(idx + 1 > 10) ? null : <h2 className='rank'><small>#</small>{idx + 1}</h2>}
                             <h4>{champKey && champKey[data.championId] && champKey[data.championId]['names']}</h4>
                             <p>{(() => {
                                 const points = data.championPoints.toLocaleString(); // 콤마 추가
@@ -116,43 +121,8 @@ function App() {
                     </div>
                 )) : null}
             </div>
-            {/*<TableContainer component={Paper} id='tb-container'>*/}
-            {/*    <Table sx={{minWidth: 650}} aria-label="simple table">*/}
-            {/*        <TableHead>*/}
-            {/*            <TableRow>*/}
-            {/*                <TableCell>챔피언(사진)</TableCell>*/}
-            {/*                <TableCell align="right">챔피언(이름)</TableCell>*/}
-            {/*                <TableCell align="right">숙련도 레벨</TableCell>*/}
-            {/*                <TableCell align="right">숙련도 점수</TableCell>*/}
-            {/*                <TableCell align="right">최근 플레이</TableCell>*/}
-            {/*                <TableCell align="right">상자 획득 여부</TableCell>*/}
-            {/*            </TableRow>*/}
-            {/*        </TableHead>*/}
-            {/*        <TableBody>*/}
-            {/*            {summonerPid ? summonerPid.map((data: any, idx: number) => (*/}
-            {/*                <TableRow*/}
-            {/*                    key={idx}*/}
-            {/*                    sx={{'&:last-child td, &:last-child th': {border: 0}}}*/}
-            {/*                >*/}
-            {/*                    <TableCell component="th" scope="row">*/}
-            {/*                        {champKey && champKey[data.championId] && champKey[data.championId]['img'] ? <img*/}
-            {/*                            src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`}/> : null}*/}
-            {/*                    </TableCell>*/}
-            {/*                    <TableCell*/}
-            {/*                        align="right">{champKey && champKey[data.championId] && champKey[data.championId]['names']}</TableCell>*/}
-            {/*                    <TableCell align="right">{data.championLevel}</TableCell>*/}
-            {/*                    <TableCell align="right">{(() => {*/}
-            {/*                        const points = data.championPoints.toLocaleString(); // 콤마 추가*/}
-            {/*                        return points;*/}
-            {/*                    })()}</TableCell>*/}
-            {/*                    <TableCell align="right">{data.protein}</TableCell>*/}
-            {/*                    <TableCell align="right">{data.chestGranted ? "가능" : "불가능"}</TableCell>*/}
-
-            {/*                </TableRow>*/}
-            {/*            )) : null}*/}
-            {/*        </TableBody>*/}
-            {/*    </Table>*/}
-            {/*</TableContainer>*/}
+            {loadingState ?
+                <div className={`popup-spinner`}><Loading/></div> : null}
         </div>
     );
 }

@@ -11,8 +11,6 @@ body {
   align-items: center;
   background-color: #fff;
   min-height: 100vh;
-
-
 }
 
 .App {
@@ -21,7 +19,24 @@ body {
   max-width: 1920px;
   background-color: #f2f2f2;
 
+  .popup-spinner{
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 20px;
+    height: 100vh;
+    background-color: #333333;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.3;
+    justify-content: center;
+    align-items: center;
+  }
+
   .box{
+    min-height: 60vh;
     .list:first-child {
       background-color: #FFD770
     }
@@ -65,7 +80,8 @@ body {
     }
 
     .summoner-name {
-      margin-top: 20px;
+      margin-top: 30px;
+      margin-bottom: 20px;
     }
   }
 
