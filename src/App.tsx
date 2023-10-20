@@ -5,11 +5,26 @@ import {Button, TextField} from '@mui/material';
 import ButtonAppBar from "./component/Header";
 import Loading from "./component/Loading";
 
+
+
+interface RegionList {
+    kr: string,
+    euw1: string,
+    jp1: string,
+    eun1: string,
+    br1: string,
+    la1: string,
+    la2: string,
+    th2: string,
+    th1: string,
+}
+
 function App() {
     const [summonerPid, setSummonerPid] = useState<string[]>([]);
     const [summonerName, setSummonerName] = useState();
     const [champKey, setChampKey] = useState();
     const [loadingState, setLoadingState] = useState<boolean>(false)
+    const [region, setRegion] = useState<RegionList[]>()
     const apikey: string | undefined = process.env.REACT_APP_RIOT_API_KEY
 
     function convertUnixTimestamp(unixTimestamp: number): string {
@@ -22,12 +37,20 @@ function App() {
         // 년, 월, 일, 시간, 분 추출
         const year: number = dateObject.getFullYear();
         let month: number | string = dateObject.getMonth() + 1;
-        const day: number = dateObject.getDate();
-        const hours: number = dateObject.getHours();
+        let day: number | string = dateObject.getDate();
+        let hours: number | string = dateObject.getHours();
         const minutes: number = dateObject.getMinutes();
+
+        if (day < 10){
+            day = "0" + day
+        }
 
         if (month < 10) {
             month = "0" + month
+        }
+
+        if (hours < 10){
+            hours = "0" + hours
         }
 
         // 결과 반환
@@ -37,10 +60,10 @@ function App() {
 
     const getSummonerMasteryInfo = (summonerName: string | undefined): void => {
         setLoadingState(true)
-        axios.get(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
+        axios.get(`https://${region ? region : 'kr'}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
             .then((res: AxiosResponse<any, any>): void => {
                 console.log(res.data.puuid)
-                axios.get(`https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`)
+                axios.get(`https://${region ? region : 'kr'}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`)
                     .then((res: AxiosResponse<any, any>) => {
                         setSummonerPid(res.data);
                         setLoadingState(false);
@@ -99,7 +122,7 @@ function App() {
                                 src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`}/> : null}
                         </div>
                         <div className='content'>
-                            {(idx + 1 > 10) ? null : <h2 className='rank'><small>#</small>{idx + 1}</h2>}
+                            {(idx + 1 > 10) ? null : <h2 className='rank' id='rank_1'><small>#</small>{idx + 1}</h2> }
                             <h4>{champKey && champKey[data.championId] && champKey[data.championId]['names']}</h4>
                             <p>{(() => {
                                 const points = data.championPoints.toLocaleString(); // 콤마 추가

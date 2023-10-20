@@ -1,0 +1,20 @@
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+body {
+  font-size: 12px;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    font-size: 12px;
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-size: 14px;
+  }
+
+  @media screen and (min-width: $breakpoint-xl) {
+    font-size: 16px;
+  }
+}
