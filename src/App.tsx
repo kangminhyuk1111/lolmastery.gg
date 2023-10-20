@@ -79,7 +79,7 @@ function App() {
                 <div className='summoner-name'>
                     <TextField size='small' label="소환사이름" variant="outlined" type='text' id='input-summoner'
                                onChange={inputChange}/>
-                    <Button variant="contained" onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
+                    <Button className='ml-10' variant="contained" onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
                 </div>
             </div>
             {/*<div className='wrapper-rank'>*/}

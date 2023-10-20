@@ -12,6 +12,10 @@ body {
   background-color: #fff;
   min-height: 100vh;
 
+  .ml-10{
+    margin-left: 6px;
+  }
+
 
 }
 
@@ -65,7 +69,8 @@ body {
     }
 
     .summoner-name {
-      margin-top: 20px;
+      margin-top: 30px;
+      margin-bottom: 20px;
     }
   }
 
