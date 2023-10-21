@@ -11,9 +11,9 @@ export default function ButtonAppBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <Button href="https://github.com/kangminhyuk1111" target='_blank' color="inherit"><i className="fa-brands fa-github"></i></Button>
-                    </Typography>
+                    <Button href="https://github.com/kangminhyuk1111" target='_blank' color="inherit"><i className="fa-brands fa-github"></i></Button>
+                    <Button href="https://kangminhyuk1111.tistory.com/" target='_blank' color="inherit">커뮤니티</Button>
+                    <Button href="https://kangminhyuk1111.tistory.com/" target='_blank' color="inherit">공지사항</Button>
                     <Button href="https://kangminhyuk1111.tistory.com/" target='_blank' color="inherit">개발자 블로그</Button>
                 </Toolbar>
             </AppBar>
