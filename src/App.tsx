@@ -1,9 +1,8 @@
-import axios, {AxiosResponse} from 'axios';
-import {useEffect, useState} from 'react';
 import './App.scss';
 import Loading from "./component/Loading";
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import MasteryPage from "./pages/MasteryPage";
+import WrongDirectPage from "./pages/WrongDirectPage";
 
 function App() {
     return (
@@ -12,7 +11,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<MasteryPage />}/>
                     <Route path="/main/*" element={<Loading />}/>
-                    <Route path="/*" element={<Loading/>}/>
+                    <Route path="/*" element={<WrongDirectPage/>}/>
                 </Routes>
             </BrowserRouter>
         </>

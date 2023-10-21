@@ -13,8 +13,16 @@ export default function MasteryPage(){
     const [summonerName, setSummonerName] = useState();
     const [champKey, setChampKey] = useState();
     const [loadingState, setLoadingState] = useState<boolean>(false)
+    const [regionArray, setRegionArray] = useState<string[]>(['br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'na1', 'oc1', 'tr1', 'ru']);
     const [region, setRegion] = useState<string>('kr')
     const apikey: string | undefined = process.env.REACT_APP_RIOT_API_KEY
+
+    function lowerTen(num:number|string):string|any{
+        if(num < 10){
+            num = "0" + num
+        }
+        return num
+    }
 
     function convertUnixTimestamp(unixTimestamp: number): string {
         // 밀리초로 변환
@@ -28,30 +36,21 @@ export default function MasteryPage(){
         let month: number | string = dateObject.getMonth() + 1;
         let day: number | string = dateObject.getDate();
         let hours: number | string = dateObject.getHours();
-        const minutes: number = dateObject.getMinutes();
+        let minutes: number | string = dateObject.getMinutes();
 
-        if (day < 10){
-            day = "0" + day
-        }
-
-        if (month < 10) {
-            month = "0" + month
-        }
-
-        if (hours < 10){
-            hours = "0" + hours
-        }
-
-        // 결과 반환
+        month = lowerTen(month)
+        day = lowerTen(day)
+        hours = lowerTen(hours)
+        minutes = lowerTen(minutes)
 
         return `${year}.${month}.${day} ${hours}:${minutes}`;
     }
 
     const getSummonerMasteryInfo = (summonerName: string | undefined): void => {
         setLoadingState(true)
-        axios.get(`https://${region ? region : 'kr'}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
+        axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apikey}`)
             .then((res: AxiosResponse<any, any>): void => {
-                axios.get(`https://${region ? region : 'kr'}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`)
+                axios.get(`https://${region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${res.data.puuid}?api_key=${apikey}`)
                     .then((res: AxiosResponse<any, any>) => {
                         setSummonerPid(res.data);
                         setLoadingState(false);
@@ -89,6 +88,19 @@ export default function MasteryPage(){
         setRegion(e.target.value);
     };
 
+    const sortChampList = (condition: string) => {
+        switch (condition) {
+            case 'playTime':
+                break;
+            case 'level':
+                break;
+            case 'chestEarned':
+                break;
+            default:
+                break;
+        }
+    }
+
     useEffect((): void => {
         versionChampId();
     }, [])
@@ -101,8 +113,8 @@ export default function MasteryPage(){
                 <h1>LOL Champion Mastery</h1>
                 <h2>당신의 리그오브레전드 챔피언 숙련도를 검색하세요</h2>
                 <div className='summoner-name'>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <FormControl size='small'>
+                        <InputLabel id="demo-simple-select-label">Region</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -110,14 +122,14 @@ export default function MasteryPage(){
                             label="Age"
                             onChange={regionSelectChange}
                         >
-                            <MenuItem value={'kr'}>KR</MenuItem>
-                            <MenuItem value={'jp1'}>JP</MenuItem>
-                            <MenuItem value={'euw1'}>EUW</MenuItem>
+                            {regionArray ? regionArray.map((item:string,idx:number) => {
+                                return <MenuItem value={item}>{item.toUpperCase()}</MenuItem>
+                            }) : null}
                         </Select>
                     </FormControl>
-                    <TextField size='small' label="소환사이름" variant="outlined" type='text' id='input-summoner'
+                    <TextField size='small' className='ml-6' label="소환사이름" variant="outlined" type='text' id='input-summoner'
                                onChange={inputChange}/>
-                    <Button variant="contained" onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
+                    <Button variant="contained" className='ml-6' onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
                 </div>
             </div>
             <div className='box'>
