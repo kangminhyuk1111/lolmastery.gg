@@ -107,7 +107,6 @@ export default function MasteryPage(){
 
     return (
         <div className="App">
-            <ButtonAppBar/>
             <div className='main-wrapper'>
                 <img className='logo-img' src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`} alt='alt'/>
                 <h1>LOL Champion Mastery</h1>

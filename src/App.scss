@@ -64,10 +64,15 @@ body {
   }
 
   .main-wrapper {
-    margin: 30px 0 auto;
+    margin: 0 auto;
+    padding-top: 30px;
     width: 100%;
     height: auto;
     text-align: center;
+
+    &.community{
+      min-height: 100vh;
+    }
 
     &:nth-child(3) {
       margin-top: 0;
@@ -212,4 +217,10 @@ body {
 .notEarned {
   filter: brightness(0%) opacity(15%);
   -webkit-filter: brightness(1%) opacity(15%);
+}
+
+#app-bar{
+  a{
+    font-size: 0.8em;
+  }
 }
