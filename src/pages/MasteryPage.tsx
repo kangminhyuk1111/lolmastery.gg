@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import axios, {AxiosResponse} from "axios";
-import ButtonAppBar from "../component/Header";
 import {Button, TextField} from "@mui/material";
 import Loading from "../component/Loading";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
@@ -122,7 +121,7 @@ export default function MasteryPage(){
                             onChange={regionSelectChange}
                         >
                             {regionArray ? regionArray.map((item:string,idx:number) => {
-                                return <MenuItem value={item}>{item.toUpperCase()}</MenuItem>
+                                return <MenuItem value={item} key={idx} >{item.toUpperCase()}</MenuItem>
                             }) : null}
                         </Select>
                     </FormControl>
@@ -133,7 +132,7 @@ export default function MasteryPage(){
             </div>
             <div className='box'>
                 {summonerPid ? summonerPid.map((data: any, idx: number) => (
-                    <div className='list'>
+                    <div className='list' key={idx}>
                         <div className='imgBox'>
                             {champKey && champKey[data.championId] && champKey[data.championId]['img'] ? <img
                                 className='champImg'
@@ -143,8 +142,7 @@ export default function MasteryPage(){
                             {(idx + 1 > 10) ? null : <h2 className='rank' id='rank_1'><small>#</small>{idx + 1}</h2> }
                             <h4>{champKey && champKey[data.championId] && champKey[data.championId]['names']}</h4>
                             <p>{(() => {
-                                const points = data.championPoints.toLocaleString(); // 콤마 추가
-                                return points;
+                                return data.championPoints.toLocaleString();
                             })()}</p>
                         </div>
                         <div className='content w-50'>

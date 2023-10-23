@@ -1,0 +1,24 @@
+.community-board-div{
+  min-width: 100%;
+  padding: 20px 0;
+  margin: 0 auto;
+  margin-top: 20px;
+  .board-item{
+    width: 90%;
+    background-color: #ffffff;
+    margin: 0 auto;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    .board-item-writer{
+      width: 25%;
+      border: 1px solid gray;
+    }
+    .board-item-title{
+      width: 75%;
+      border: 1px solid gray;
+    }
+  }
+}

@@ -7,19 +7,8 @@ import NoticePage from "./pages/NoticePage";
 import CommunityPage from "./pages/CommunityPage";
 import ButtonAppBar from "./component/Header";
 import React, {useEffect} from "react";
-import { db } from './firebase/firebase'
-import { collection, getDocs, getDoc ,doc } from 'firebase/firestore'
 
 function App() {
-    const boardCollection = collection(db, "notice-board")
-
-    useEffect(() => {
-        async function getBoardData() {
-            const getData = await getDocs(boardCollection)
-        }
-        getBoardData()
-    },[])
-
     return (
         <>
             <BrowserRouter>
