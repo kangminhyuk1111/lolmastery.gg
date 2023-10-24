@@ -1,12 +1,13 @@
+import React from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import './App.scss';
-import Loading from "./component/Loading";
-import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import MasteryPage from "./pages/MasteryPage";
 import WrongDirectPage from "./pages/WrongDirectPage";
 import NoticePage from "./pages/NoticePage";
 import CommunityPage from "./pages/CommunityPage";
 import ButtonAppBar from "./component/Header";
-import React, {useEffect} from "react";
+import CommunityWritePage from "./pages/CommunityWritePage";
+import CommunityDetailPage from "./pages/CommunityDetailPage";
 
 function App() {
     return (
@@ -16,10 +17,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<MasteryPage />}/>
                     <Route path="/notice/*" element={<NoticePage />}/>
-                    <Route path="/community/*" element={<CommunityPage />}/>
-
-                    {/* 404 page */}
-                    <Route path="/*" element={<WrongDirectPage/>}/>
+                    <Route path="/community/" element={<CommunityPage />}/>
+                    <Route path="/community/write" element={<CommunityWritePage />}/>
+                    <Route path='/community/boardDetail/:boardId' element={<CommunityDetailPage />}/>
                 </Routes>
             </BrowserRouter>
         </>

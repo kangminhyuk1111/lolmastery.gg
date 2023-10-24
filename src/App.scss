@@ -80,7 +80,7 @@ body {
     }
 
     h1 {
-      min-width: 450px;
+      min-width: 350px;
       font-size: 2em;
       font-family: 'Montserrat', sans-serif;
     }
@@ -138,16 +138,7 @@ body {
   min-height: 100vh;
   padding: 0px 20px;
 
-  .list {
-    position: relative;
-    display: flex;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 10px 0;
-    cursor: pointer;
-    transition: .5s;
-    overflow: hidden;
-    background: #fff;
+
 
     .imgBox {
       position: relative;
@@ -206,7 +197,6 @@ body {
       }
     }
   }
-}
 
 .chest {
     object-fit: cover;
@@ -223,4 +213,17 @@ body {
   a{
     font-size: 0.8em;
   }
+}
+
+.list {
+  position: relative;
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: .5s;
+  overflow: hidden;
+  background: #fff;
+  height: 70px;
 }

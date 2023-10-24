@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/WrongDirectPage.scss'
+import '../css/wrongDirectPage.scss'
 
 function WrongDirectPage() {
     return (
