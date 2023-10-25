@@ -87,19 +87,6 @@ export default function MasteryPage(){
         setRegion(e.target.value);
     };
 
-    const sortChampList = (condition: string) => {
-        switch (condition) {
-            case 'playTime':
-                break;
-            case 'level':
-                break;
-            case 'chestEarned':
-                break;
-            default:
-                break;
-        }
-    }
-
     useEffect((): void => {
         versionChampId();
     }, [])
