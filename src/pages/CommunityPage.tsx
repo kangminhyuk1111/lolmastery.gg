@@ -42,7 +42,7 @@ const timeForToday = (value:number|undefined): string|undefined => {
 }
 
 // firebase db 컬렉션 가져옴
-const boardCollectionRef = collection(db,'community-board')
+const boardCollectionRef = collection(db,'notice-board')
 
 // create board data
 const createFirebaseBoardDb = async () => {
