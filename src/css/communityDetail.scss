@@ -1,0 +1,50 @@
+.community-detail-div{
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #fff;
+  h1{
+    text-align: left;
+    text-size: 24px;
+  }
+  .detail-sub{
+    display: flex;
+    flex-direction: row;
+    padding-top: 6px;
+    p{
+      text-align: left;
+      font-size: 18px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .p-date, .p-writer{
+      padding-left: 10px;
+    }
+  }
+  .detail-content{
+    padding-top: 10px;
+    max-width: 400px;
+    text-align: left;
+    word-wrap: break-word;
+    letter-spacing: -1px;
+    font-size: 16px;
+  }
+}
+
+.detail-comment-div{
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #fff;
+  height: 40px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 14px;
+  .detail-comment-div-pl-8{
+    padding-left: 8px;
+    color: gray;
+  }
+}

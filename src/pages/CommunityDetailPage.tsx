@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {collection, doc, getDocs, query, where} from "firebase/firestore";
 import {db} from "../firebase/firebase";
+import '../css/communityDetail.scss';
 
 type setBoardDataTypes = {
     boardData : {
@@ -49,8 +50,22 @@ const CommunityDetailPage: React.FC = () => {
             <div className='main-wrapper community'>
                 <img className='logo-img' src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`} alt='alt'/>
                 <h1>Community</h1>
-                <div className={'community-board-div'}>
-
+                <div className={'community-detail-div'}>
+                    <h1>this is test title</h1>
+                    <div className='detail-sub'>
+                        <p>category</p>
+                        <p className='p-date'>date</p>
+                        <p className='p-writer'>writer</p>
+                    </div>
+                    <div className='detail-content'>
+                        <p>안녕 내이름은 강민혁이고
+                        오늘부터 잘부탁한다
+                        너희가 나를 잘 챙겨 줄거라고 생각해</p>
+                    </div>
+                </div>
+                <div className='detail-comment-div'>
+                    <p>야가다 강씨 <span className='detail-comment-div-pl-8'>date</span></p>
+                    <p>이건좀 ㅋㅋ;</p>
                 </div>
             </div>
         </div>
