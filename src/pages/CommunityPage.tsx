@@ -87,7 +87,13 @@ const CommunityPage: React.FC = () => {
                                         <div className='board-item-2-top'>{item.boardData.title}
                                             <span className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span>
                                         </div>
+                                        <div className={'board-item-2-tags'}>
+                                            <span><span className={'span-writer'}>{item.boardData.writer}</span> · {item.boardData.category} · 조회 {item.boardData.view}</span>
+                                        </div>
                                     </Link>
+                                    <div className={'board-item-2-middle'}>
+                                        <p>{item.boardData.content}</p>
+                                    </div>
                                     <div className='board-item-2-bottom'>
                                         <p className='write-category'>category</p>
                                         <p className='write-date'>{timeForToday(item.boardData.writeDate?.seconds)}</p>

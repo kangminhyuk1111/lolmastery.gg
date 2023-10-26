@@ -27,13 +27,22 @@
       width: 95%;
       padding-left: 20px;
       flex-direction: column;
+      text-align: left;
+      .board-item-2-tags{
+        padding: 5px 0;
+        .span-writer{
+          font-size: 1.2em;
+        }
+      }
+      .board-item-2-middle{
+        padding: 10px 0;
+      }
       .board-item-2-top{
         font-size: 1.2rem;
         text-align: left;
       }
       .board-item-2-bottom{
         display: flex;
-        flex-direction: row-reverse;
         text-align: left;
         padding-right: 12px;
         margin-top: 5px;
