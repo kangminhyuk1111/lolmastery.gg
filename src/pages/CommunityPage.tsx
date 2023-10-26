@@ -10,6 +10,7 @@ import Loading from "../component/Loading";
 // doc.id, doc.data()
 
 type setBoardDataTypes = {
+    id:string,
     boardData: {
         title?: string;
         content?: string;
@@ -59,7 +60,7 @@ const CommunityPage: React.FC = () => {
                 commentDataSnapshot.forEach((doc) => {
                     comments.push(doc.data());
                 });
-                return {boardData: doc.data(), commentData: comments};
+                return {id: doc.id ,boardData: doc.data(), commentData: comments};
             }));
             setBoardData(mapData)
         }
@@ -82,7 +83,7 @@ const CommunityPage: React.FC = () => {
                                 </div>
                                 <div className='board-item-1'/>
                                 <div className='board-item-2'>
-                                    <Link to={`/community/boardDetail/${idx + 1}`} className={'board-list'}>
+                                    <Link to={`/community/boardDetail/${item.id}`} className={'board-list'}>
                                         <div className='board-item-2-top'>{item.boardData.title}
                                             <span className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span>
                                         </div>

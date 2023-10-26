@@ -21,7 +21,6 @@ type setBoardDataTypes = {
     }
 }
 const CommunityDetailPage: React.FC = () => {
-    // TODO state넣어서 커뮤니티 페이지 작성하기
     const [commentData, setCommentData] = useState<any[]>([])
     const [postData, setPostData] = useState<any>()
     const params:any= useParams()
