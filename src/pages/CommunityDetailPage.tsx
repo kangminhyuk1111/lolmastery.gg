@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {collection, doc, getDocs, query, where} from "firebase/firestore";
 import {db} from "../firebase/firebase";
 import '../css/communityDetail.scss';
+import {timeForToday} from "../calc/timeForToday";
+import Loading from '../component/Loading'
 
 type setBoardDataTypes = {
     boardData : {
@@ -20,6 +22,8 @@ type setBoardDataTypes = {
 }
 const CommunityDetailPage: React.FC = () => {
     // TODO state넣어서 커뮤니티 페이지 작성하기
+    const [commentData, setCommentData] = useState<any[]>([])
+    const [postData, setPostData] = useState<any>()
     const params:any= useParams()
     useEffect(()=>{
         const fetchBoardData = async () => {
@@ -32,12 +36,12 @@ const CommunityDetailPage: React.FC = () => {
                 const commentQuerySnapshot = await getDocs(commentQuery)
                 const data: any[] = [];
                 contentQuerySnapshot.forEach((doc)=>(
-                    console.log(doc.data())
+                   setPostData(doc.data())
                 ))
                 commentQuerySnapshot.forEach((doc)=>(
-                    console.log(doc.data())
+                    data.push(doc.data())
                 ))
-                console.log(data)
+                setCommentData(data)
             } catch (err){
                 console.error(err)
             }
@@ -50,23 +54,25 @@ const CommunityDetailPage: React.FC = () => {
             <div className='main-wrapper community'>
                 <img className='logo-img' src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`} alt='alt'/>
                 <h1>Community</h1>
-                <div className={'community-detail-div'}>
-                    <h1>this is test title</h1>
+                {postData ? <div className={'community-detail-div'}>
+                    <h1>{postData.title}</h1>
                     <div className='detail-sub'>
-                        <p>category</p>
-                        <p className='p-date'>date</p>
-                        <p className='p-writer'>writer</p>
+                        <p>{postData.content}</p>
+                        <p className='p-date'>{''}</p>
+                        <p className='p-writer'>{postData.writer}</p>
                     </div>
                     <div className='detail-content'>
-                        <p>안녕 내이름은 강민혁이고
-                        오늘부터 잘부탁한다
-                        너희가 나를 잘 챙겨 줄거라고 생각해</p>
+                        <p>{postData.conetent}</p>
                     </div>
-                </div>
-                <div className='detail-comment-div'>
-                    <p>야가다 강씨 <span className='detail-comment-div-pl-8'>date</span></p>
-                    <p>이건좀 ㅋㅋ;</p>
-                </div>
+                </div> : null}
+                {commentData ? commentData.map((item,idx)=> {
+                    return (
+                        <div className='detail-comment-div' key={idx}>
+                            <p>{item.commentWriter} <span className='detail-comment-div-pl-8'>{timeForToday(item.commentDate?.seconds)}</span></p>
+                            <p>{item.commentContent}</p>
+                        </div>
+                    )
+                }) : <Loading />}
             </div>
         </div>
     );

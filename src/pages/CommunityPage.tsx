@@ -4,47 +4,23 @@ import {collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query, where} fr
 import '../css/community.scss'
 import Loding from "../component/Loading";
 import {Link} from "react-router-dom";
+import {timeForToday} from "../calc/timeForToday";
+import Loading from "../component/Loading";
 
 // doc.id, doc.data()
 
 type setBoardDataTypes = {
-    boardData : {
+    boardData: {
         title?: string;
         content?: string;
         writer?: string;
         category?: string;
         writeDate?: { seconds: number | undefined, nanoseconds: number | undefined }
     },
-    commentData? : {
-        commentContent?:string;
-        commentWriter?:string;
-        commentDate?:string;
-    }
-}
-
-const timeForToday = (value: number | undefined): string | undefined => {
-    if (value !== undefined) {
-        const today = new Date();
-        const val = value * 1000
-        const timeValue = new Date(val);
-
-        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-        if (betweenTime < 1) return '방금전';
-        if (betweenTime < 60) {
-            return `${betweenTime}분전`;
-        }
-
-        const betweenTimeHour = Math.floor(betweenTime / 60);
-        if (betweenTimeHour < 24) {
-            return `${betweenTimeHour}시간전`;
-        }
-
-        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-        if (betweenTimeDay < 365) {
-            return `${betweenTimeDay}일전`;
-        }
-
-        return `${Math.floor(betweenTimeDay / 365)}년전`;
+    commentData?: {
+        commentContent?: string;
+        commentWriter?: string;
+        commentDate?: string;
     }
 }
 
@@ -79,11 +55,11 @@ const CommunityPage: React.FC = () => {
 
             let mapData = await Promise.all(boardData.docs.map(async (doc, idx) => {
                 const commentDataSnapshot = await getDocs(query(collection(db, `/notice-board/${idx + 1}/comment`)));
-                const comments:object[] = [];
+                const comments: object[] = [];
                 commentDataSnapshot.forEach((doc) => {
                     comments.push(doc.data());
                 });
-                return { boardData: doc.data(), commentData: comments };
+                return {boardData: doc.data(), commentData: comments};
             }));
             setBoardData(mapData)
         }
@@ -99,21 +75,27 @@ const CommunityPage: React.FC = () => {
                 <div className={'community-board-div'}>
                     {boardData ? boardData.map((item, idx) => {
                         return (
-                            <Link to={`/community/boardDetail/${idx + 1}`} className={'board-list'}>
-                                <div className='board-item list' key={idx}>
-                                    <div className='board-item-1'/>
-                                    <div className='board-item-2'>
-                                        <div className='board-item-2-top'>{item.boardData.title}<span className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span></div>
-                                        <div className='board-item-2-bottom'>
-                                            <p className='write-category'>category</p>
-                                            <p className='write-date'>{timeForToday(item.boardData.writeDate?.seconds)}</p>
-                                            <p className='write-writer'>{item.boardData.writer}</p>
+                            <div className='board-item list' key={idx}>
+                                <div className='board-item-hit'>
+                                    <i className="fa-regular fa-eye"></i>
+                                    <p>320</p>
+                                </div>
+                                <div className='board-item-1'/>
+                                <div className='board-item-2'>
+                                    <Link to={`/community/boardDetail/${idx + 1}`} className={'board-list'}>
+                                        <div className='board-item-2-top'>{item.boardData.title}
+                                            <span className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span>
                                         </div>
+                                    </Link>
+                                    <div className='board-item-2-bottom'>
+                                        <p className='write-category'>category</p>
+                                        <p className='write-date'>{timeForToday(item.boardData.writeDate?.seconds)}</p>
+                                        <p className='write-writer'>{item.boardData.writer}</p>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                         )
-                    }) : <Loding/>}
+                    }) : null}
                 </div>
             </div>
         </div>
