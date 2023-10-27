@@ -38,16 +38,19 @@ body {
   }
 
   .box{
+    min-width: 350px;
+    margin: 0 auto;
+    width: 60%;
     min-height: 60vh;
-    .list:first-child {
+    .list:nth-child(2) {
       background-color: #FFD770
     }
 
-    .list:nth-child(2) {
+    .list:nth-child(3) {
       background-color: #C0C0C0
     }
 
-    .list:nth-child(3) {
+    .list:nth-child(4) {
       background-color: #CD7F32
     }
   }
@@ -63,7 +66,8 @@ body {
   .main-wrapper {
     margin: 0 auto;
     padding-top: 30px;
-    width: 100%;
+    width: 60%;
+    min-width: 350px;
     height: auto;
     text-align: center;
 
@@ -156,18 +160,18 @@ body {
     }
 
     .content {
-      min-width: 50px;
+      min-width: 130px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       color: #333;
       margin-left: 1em;
 
-      .content w-50 {
-        min-width: 50px;
+      .content .w-50 {
+        min-width: 100px;
       }
 
-      .content w-10{
+      .content .w-10{
         width: 10px;
       }
 
@@ -223,4 +227,8 @@ body {
   transition: .5s;
   overflow: hidden;
   background: #fff;
+  &.h-20{
+    height: 20px;
+    letter-spacing: -1px;
+  }
 }

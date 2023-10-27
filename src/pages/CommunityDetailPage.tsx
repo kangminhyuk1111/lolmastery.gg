@@ -57,7 +57,7 @@ const CommunityDetailPage: React.FC = () => {
                     <h1>{postData.title}</h1>
                     <div className='detail-sub'>
                         <p>{postData.content}</p>
-                        <p className='p-date'>{''}</p>
+                        <p className='p-date'>{timeForToday(postData.writeDate.seconds)}</p>
                         <p className='p-writer'>{postData.writer}</p>
                     </div>
                     <div className='detail-content'>

@@ -1,9 +1,12 @@
 .content-write{
   width: 100%;
-  height: 100vh;
+  height: 105vh;
   background-color: #f2f2f2;
   .content-write-page{
+    width: 60%;
     padding: 20px;
+    margin: 0 auto;
+    min-width: 350px;
     h1{
       padding-bottom: 20px;
     }
@@ -13,6 +16,7 @@
     }
     .category{
       width: 30%;
+      min-width: 100px;
     }
     .write-btn-div{
       width: 100%;

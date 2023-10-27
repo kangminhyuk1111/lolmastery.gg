@@ -118,6 +118,22 @@ export default function MasteryPage(){
                 </div>
             </div>
             <div className='box'>
+                <div className={'list h-20'}>
+                    <div className={'imgBox'}>
+                    </div>
+                    <div className={'content'}>
+                        챔피언 이름
+                    </div>
+                    <div className={'content w-50'}>
+                        숙련도 레벨
+                    </div>
+                    <div className={'content w-10'}>
+                        상자 획득 여부
+                    </div>
+                    <div className={'content w-10'}>
+                        최근 플레이 시간
+                    </div>
+                </div>
                 {summonerPid ? summonerPid.map((data: any, idx: number) => (
                     <div className='list' key={idx}>
                         <div className='imgBox'>

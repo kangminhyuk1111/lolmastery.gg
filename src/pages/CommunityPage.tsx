@@ -16,7 +16,9 @@ type setBoardDataTypes = {
         content?: string;
         writer?: string;
         category?: string;
-        writeDate?: { seconds: number | undefined, nanoseconds: number | undefined }
+        view?: number;
+        writeDate?: { seconds: number | undefined, nanoseconds: number | undefined };
+        tags: [];
     },
     commentData?: {
         commentContent?: string;
@@ -55,7 +57,7 @@ const CommunityPage: React.FC = () => {
             const boardData = await getDocs(boardCollectionRef);
 
             let mapData = await Promise.all(boardData.docs.map(async (doc, idx) => {
-                const commentDataSnapshot = await getDocs(query(collection(db, `/notice-board/${idx + 1}/comment`)));
+                const commentDataSnapshot = await getDocs(query(collection(db, `/notice-board/${doc.id}/comment`)));
                 const comments: object[] = [];
                 commentDataSnapshot.forEach((doc) => {
                     comments.push(doc.data());
@@ -77,27 +79,23 @@ const CommunityPage: React.FC = () => {
                     {boardData ? boardData.map((item, idx) => {
                         return (
                             <div className='board-item list' key={idx}>
-                                <div className='board-item-hit'>
-                                    <i className="fa-regular fa-eye"></i>
-                                    <p>320</p>
-                                </div>
                                 <div className='board-item-1'/>
                                 <div className='board-item-2'>
+                                    <div className={'board-item-2-tags'}>
+                                        <span> <img className={'summoner-icon'} src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`}/> <span className={'span-writer'}>{item.boardData.writer}</span> · {timeForToday(item.boardData.writeDate?.seconds)} · {item.boardData.category} · 조회 {item.boardData.view}</span>
+                                    </div>
                                     <Link to={`/community/boardDetail/${item.id}`} className={'board-list'}>
                                         <div className='board-item-2-top'>{item.boardData.title}
                                             <span className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span>
-                                        </div>
-                                        <div className={'board-item-2-tags'}>
-                                            <span><span className={'span-writer'}>{item.boardData.writer}</span> · {item.boardData.category} · 조회 {item.boardData.view}</span>
                                         </div>
                                     </Link>
                                     <div className={'board-item-2-middle'}>
                                         <p>{item.boardData.content}</p>
                                     </div>
                                     <div className='board-item-2-bottom'>
-                                        <p className='write-category'>category</p>
-                                        <p className='write-date'>{timeForToday(item.boardData.writeDate?.seconds)}</p>
-                                        <p className='write-writer'>{item.boardData.writer}</p>
+                                        {item.boardData.tags ? item.boardData.tags.map((tags:string,idx:number) => {
+                                            return <div key={idx} className={'tags'}><div className={'dot'}></div>{tags}</div>
+                                        }): null}
                                     </div>
                                 </div>
                             </div>

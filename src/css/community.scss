@@ -1,8 +1,8 @@
 .community-board-div{
-  min-width: 100%;
   margin: 0 auto;
   padding-bottom: 10px;
   width: 100%;
+  min-width: 350px;
   a{
     color: black;
     text-decoration: none;
@@ -15,40 +15,67 @@
     flex-direction: row;
     align-items: center;
     font-family: 'Noto Sans KR', sans-serif;
-    .board-item-hit{
-      width: 10%;
-      border: 1px solid #b4b4b4;
+    &.list{
+      padding: 10px;
       border-radius: 10px;
-      img{
-        width: 100%;
-      }
     }
     .board-item-2{
       width: 95%;
-      padding-left: 20px;
+      padding: 5px;
       flex-direction: column;
       text-align: left;
       .board-item-2-tags{
-        padding: 5px 0;
+        color: #919191;
+        letter-spacing: -0.5px;
+        span {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+        .summoner-icon{
+          width: 24px;
+          margin-right: 4px;
+        }
         .span-writer{
           font-size: 1.2em;
         }
       }
       .board-item-2-middle{
-        padding: 10px 0;
+        font-size: 1.1em;
+        margin-bottom: 16px;
+        letter-spacing: -1px;
+        p{
+          color: #919191;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
       .board-item-2-top{
         font-size: 1.2rem;
         text-align: left;
+        padding: 10px 0;
       }
       .board-item-2-bottom{
         display: flex;
         text-align: left;
         padding-right: 12px;
         margin-top: 5px;
-        .write-category{
+        .tags{
           font-size: 1rem;
-          color: #C0C0C0;
+          color: #444444;
+          margin-right: 8px;
+          padding: 0.3em 0.7em;
+          border-radius: 6px;
+          background-color: #dadce0;
+          line-height: normal;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
         }
         .write-date{
           height: 24px;
@@ -75,4 +102,25 @@
 .comment-leng{
   padding-left: 5px;
   color: #1976d2;
+}
+
+.dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: gray;
+  margin-right: 6px;
+}
+
+#mb-6{
+  margin-bottom: 10px;
+}
+
+.rti--container{
+  background-color: #f2f2f2 !important;
+  margin-bottom: 10px;
+  border-radius: 4px !important;
+  .rti--input{
+    background-color: #f2f2f2 !important;
+  }
 }
