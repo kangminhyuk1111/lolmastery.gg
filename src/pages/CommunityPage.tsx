@@ -91,6 +91,7 @@ const CommunityPage: React.FC = () => {
                                     </Link>
                                     <div className={'board-item-2-middle'}>
                                         <p>{item.boardData.content}</p>
+
                                     </div>
                                     <div className='board-item-2-bottom'>
                                         {item.boardData.tags ? item.boardData.tags.map((tags:string,idx:number) => {
