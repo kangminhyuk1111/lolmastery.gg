@@ -13,7 +13,7 @@ Github Repository : https://github.com/kangminhyuk1111/lolmastery.gg/
 ## 기술스택
 
 - Frontend
-    - React, Typescript, MaterialUI, Scss, RIOT API, React-router-dom, axios
+    - React, Typescript, MaterialUI, Sass, RIOT API, React-router-dom, axios
 - Backend
     - Nodejs, express, axios, filesystem
 - Server
