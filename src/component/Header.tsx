@@ -15,7 +15,6 @@ export default function ButtonAppBar() {
                     <Button href="https://kangminhyuk1111.tistory.com/" target='_blank' color="inherit">개발자 블로그</Button>
                     <Button component={Link} to={"/"} color="inherit"><i className={"fa-solid fa-magnifying-glass"}></i></Button>
                     <Button component={Link} to={"/community/write"} color="inherit"><i className="fa-solid fa-pencil"></i></Button>
-
                 </Toolbar>
             </AppBar>
         </Box>

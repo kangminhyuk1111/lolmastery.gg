@@ -28,9 +28,9 @@ const CommunityDetailPage: React.FC = () => {
         const fetchBoardData = async () => {
             try{
                 const contentQuery = query(
-                    collection(db, 'notice-board'), where('__name__','==',params.boardId)
+                    collection(db, 'community-board'), where('__name__','==',params.boardId)
                 )
-                const commentQuery = query(collection(db,`/notice-board/${params.boardId}/comment`))
+                const commentQuery = query(collection(db,`/community-board/${params.boardId}/comment`))
                 const contentQuerySnapshot = await getDocs(contentQuery)
                 const commentQuerySnapshot = await getDocs(commentQuery)
                 const data: any[] = [];

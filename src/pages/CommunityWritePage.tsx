@@ -33,7 +33,7 @@ const CommunityWritePage: React.FC = () => {
 
     const postWriteData = async (writeData: writeDataInterface) => {
         const {title, writer, writePassword, content, category} = writeData
-        const boardCollectionRef = collection(db, 'notice-board')
+        const boardCollectionRef = collection(db, 'community-board')
         const currentTimeInMilliseconds = Date.now();
         const currentTimeInNanoseconds = currentTimeInMilliseconds * 1e6; // milliseconds를 나노초로 변환
         const currentTimeInSeconds = Math.floor(currentTimeInMilliseconds / 1000); // milliseconds를 초로 변환

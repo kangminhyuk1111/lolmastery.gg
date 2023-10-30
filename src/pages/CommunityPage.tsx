@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {db} from '../firebase/firebase'
-import {collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
+import {collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query} from 'firebase/firestore'
 import '../css/community.scss'
 import Loding from "../component/Loading";
 import {Link} from "react-router-dom";
@@ -18,7 +18,7 @@ type setBoardDataTypes = {
         category?: string;
         view?: number;
         writeDate?: { seconds: number | undefined, nanoseconds: number | undefined };
-        tags: [];
+        tags?: [];
     },
     commentData?: {
         commentContent?: string;
@@ -28,7 +28,7 @@ type setBoardDataTypes = {
 }
 
 // firebase db 컬렉션 가져옴
-const boardCollectionRef = collection(db, 'notice-board')
+const boardCollectionRef = collection(db, 'community-board')
 
 // create board data
 const createFirebaseBoardDb = async () => {
@@ -37,14 +37,14 @@ const createFirebaseBoardDb = async () => {
 
 // update board data
 const updateFirebaseBoardDb = async (collectionId: string, data: setBoardDataTypes) => {
-    const selectDoc = doc(db, "notice-board", collectionId)
+    const selectDoc = doc(db, "community-board", collectionId)
     const newBoardData = {title: data.boardData.title, content: data.boardData.content}
     await updateDoc(selectDoc, newBoardData)
 }
 
 // delect board data
 const deleteFirebaseBoardDb = async (collectionId: string) => {
-    const selectDoc = doc(db, "notice-board", collectionId)
+    const selectDoc = doc(db, "community-board", collectionId)
     await deleteDoc(selectDoc)
 }
 
@@ -57,7 +57,7 @@ const CommunityPage: React.FC = () => {
             const boardData = await getDocs(boardCollectionRef);
 
             let mapData = await Promise.all(boardData.docs.map(async (doc, idx) => {
-                const commentDataSnapshot = await getDocs(query(collection(db, `/notice-board/${doc.id}/comment`)));
+                const commentDataSnapshot = await getDocs(query(collection(db, `/community-board/${doc.id}/comment`)));
                 const comments: object[] = [];
                 commentDataSnapshot.forEach((doc) => {
                     comments.push(doc.data());

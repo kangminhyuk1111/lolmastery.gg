@@ -2,7 +2,6 @@ import React from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import './App.scss';
 import MasteryPage from "./pages/MasteryPage";
-import WrongDirectPage from "./pages/WrongDirectPage";
 import NoticePage from "./pages/NoticePage";
 import CommunityPage from "./pages/CommunityPage";
 import ButtonAppBar from "./component/Header";
