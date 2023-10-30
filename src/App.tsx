@@ -7,6 +7,9 @@ import CommunityPage from "./pages/CommunityPage";
 import ButtonAppBar from "./component/Header";
 import CommunityWritePage from "./pages/CommunityWritePage";
 import CommunityDetailPage from "./pages/CommunityDetailPage";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+
 export const timeForToday = (value: number | undefined): string | undefined => {
     if (value !== undefined) {
         const today = new Date();
@@ -32,20 +35,24 @@ export const timeForToday = (value: number | undefined): string | undefined => {
         return `${Math.floor(betweenTimeDay / 365)}년전`;
     }
 }
+
+const queryClient = new QueryClient();
+
 function App() {
     return (
-        <>
+        <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <ButtonAppBar/>
                 <Routes>
-                    <Route path="/" element={<MasteryPage />}/>
-                    <Route path="/notice/*" element={<NoticePage />}/>
-                    <Route path="/community/" element={<CommunityPage />}/>
-                    <Route path="/community/write" element={<CommunityWritePage />}/>
-                    <Route path='/community/boardDetail/:boardId' element={<CommunityDetailPage />}/>
+                    <Route path="/" element={<MasteryPage/>}/>
+                    <Route path="/notice/*" element={<NoticePage/>}/>
+                    <Route path="/community/" element={<CommunityPage/>}/>
+                    <Route path="/community/write" element={<CommunityWritePage/>}/>
+                    <Route path='/community/boardDetail/:boardId' element={<CommunityDetailPage/>}/>
                 </Routes>
             </BrowserRouter>
-        </>
+            <ReactQueryDevtools initialIsOpen={false}/>
+        </QueryClientProvider>
     );
 }
 
