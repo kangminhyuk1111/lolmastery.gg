@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios, {AxiosResponse} from "axios";
-import {Button, TextField} from "@mui/material";
+import {Button, Pagination, TextField} from "@mui/material";
 import Loading from "../component/Loading";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 
-export default function MasteryPage(){
+export default function MasteryPage() {
     const [summonerPid, setSummonerPid] = useState<string[]>([]);
     const [summonerName, setSummonerName] = useState();
     const [champKey, setChampKey] = useState();
@@ -15,9 +15,12 @@ export default function MasteryPage(){
     const [regionArray, setRegionArray] = useState<string[]>(['br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'na1', 'oc1', 'tr1', 'ru']);
     const [region, setRegion] = useState<string>('kr')
     const apikey: string | undefined = process.env.REACT_APP_RIOT_API_KEY
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [sliceIdx, setSlideIdx] = useState<{ startIdx: number, lastIdx: number }>({startIdx:1,lastIdx:10});
+    const COUNT_PER_PAGE = 10;
 
-    function lowerTen(num:number|string):string|any{
-        if(num < 10){
+    function lowerTen(num: number | string): string | any {
+        if (num < 10) {
             num = "0" + num
         }
         return num
@@ -87,6 +90,13 @@ export default function MasteryPage(){
         setRegion(e.target.value);
     };
 
+    const handlePageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+        let startIdx:number = (page - 1) * COUNT_PER_PAGE
+        let lastIdx:number = startIdx + COUNT_PER_PAGE
+        setCurrentPage(page)
+        setSlideIdx({startIdx : startIdx, lastIdx : lastIdx})
+    }
+
     useEffect((): void => {
         versionChampId();
     }, [])
@@ -107,14 +117,16 @@ export default function MasteryPage(){
                             label="Age"
                             onChange={regionSelectChange}
                         >
-                            {regionArray ? regionArray.map((item:string,idx:number) => {
-                                return <MenuItem value={item} key={idx} >{item.toUpperCase()}</MenuItem>
+                            {regionArray ? regionArray.map((item: string, idx: number) => {
+                                return <MenuItem value={item} key={idx}>{item.toUpperCase()}</MenuItem>
                             }) : null}
                         </Select>
                     </FormControl>
-                    <TextField size='small' className='ml-6' label="소환사이름" variant="outlined" type='text' id='input-summoner'
+                    <TextField size='small' className='ml-6' label="소환사이름" variant="outlined" type='text'
+                               id='input-summoner'
                                onChange={inputChange}/>
-                    <Button variant="contained" className='ml-6' onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
+                    <Button variant="contained" className='ml-6'
+                            onClick={() => getSummonerMasteryInfo(summonerName)}>검색</Button>
                 </div>
             </div>
             <div className='box'>
@@ -134,36 +146,52 @@ export default function MasteryPage(){
                         최근 플레이 시간
                     </div>
                 </div>
-                {summonerPid ? summonerPid.map((data: any, idx: number) => (
-                    <div className='list' key={idx}>
-                        <div className='imgBox'>
-                            {champKey && champKey[data.championId] && champKey[data.championId]['img'] ? <img
-                                className='champImg'
-                                src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`}/> : null}
-                        </div>
-                        <div className='content'>
-                            {(idx + 1 > 10) ? null : <h2 className='rank' id='rank_1'><small>#</small>{idx + 1}</h2> }
-                            <h4>{champKey && champKey[data.championId] && champKey[data.championId]['names']}</h4>
-                            <p>{(() => {
-                                return data.championPoints.toLocaleString();
-                            })()}</p>
-                        </div>
-                        <div className='content w-50'>
-                            <h4>Lv.{data.championLevel}</h4>
-                        </div>
-                        <div className='content w-10'>
-                            <img
-                                className={`chest ${!data.chestGranted ? "notEarned" : "earned"}`}
-                                src={`${process.env.PUBLIC_URL}/imgs/chest.png`}/>
-                        </div>
-                        <div className='content w-50'>
-                            <h4>{convertUnixTimestamp(data.lastPlayTime)}</h4>
-                        </div>
+                {summonerPid ? summonerPid.slice(sliceIdx.startIdx, sliceIdx.lastIdx).map((data: any, idx: number) => (
+                    <>
+                        <div className='list' key={idx}>
+                            <div className='imgBox'>
+                                {champKey && champKey[data.championId] && champKey[data.championId]['img'] ? <img
+                                    className='champImg'
+                                    src={`${process.env.PUBLIC_URL}/championImgs/${champKey[data.championId]['img']}`}/> : null}
+                            </div>
+                            <div className='content'>
+                                {(idx + 1 > 10) ? null :
+                                    <h2 className='rank' id='rank_1'><small>#</small>{idx + 1}</h2>}
+                                <h4>{champKey && champKey[data.championId] && champKey[data.championId]['names']}</h4>
+                                <p>{(() => {
+                                    return data.championPoints.toLocaleString();
+                                })()}</p>
+                            </div>
+                            <div className='content w-50'>
+                                <h4>Lv.{data.championLevel}</h4>
+                            </div>
+                            <div className='content w-10'>
+                                <img
+                                    className={`chest ${!data.chestGranted ? "notEarned" : "earned"}`}
+                                    src={`${process.env.PUBLIC_URL}/imgs/chest.png`}/>
+                            </div>
+                            <div className='content w-50'>
+                                <h4>{convertUnixTimestamp(data.lastPlayTime)}</h4>
+                            </div>
 
-                    </div>
+                        </div>
+                    </>
                 )) : null}
             </div>
+            {summonerPid ? <Pagination
+                count={Math.ceil(summonerPid.length / COUNT_PER_PAGE)}
+                page={currentPage} // 현재 페이지
+                defaultPage={1}
+                size={"medium"}
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    padding: "15px 0",
+                }}
+                onChange={handlePageChange} // 페이지 변경 핸들러
+            /> : null}
             {loadingState ?
                 <div className={`popup-spinner`}><Loading/></div> : null}
         </div>
-    )};
+    )
+};
