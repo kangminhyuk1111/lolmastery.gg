@@ -47,8 +47,8 @@ const CommunityWritePage: React.FC = () => {
             writeDate: {nanoseconds: currentTimeInNanoseconds, seconds: currentTimeInSeconds},
             tags: tags,
         })
+        console.log(writeData)
         alert('게시 완료')
-        window.location.href = '/community'
     }
 
     const inputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

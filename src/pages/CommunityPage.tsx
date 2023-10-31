@@ -10,7 +10,7 @@ import Loading from "../component/Loading";
 // doc.id, doc.data()
 
 type setBoardDataTypes = {
-    id:string,
+    id: string,
     boardData: {
         title?: string;
         content?: string;
@@ -42,12 +42,6 @@ const updateFirebaseBoardDb = async (collectionId: string, data: setBoardDataTyp
     await updateDoc(selectDoc, newBoardData)
 }
 
-// delect board data
-const deleteFirebaseBoardDb = async (collectionId: string) => {
-    const selectDoc = doc(db, "community-board", collectionId)
-    await deleteDoc(selectDoc)
-}
-
 const CommunityPage: React.FC = () => {
     const [boardData, setBoardData] = useState<any[]>([])
 
@@ -62,7 +56,7 @@ const CommunityPage: React.FC = () => {
                 commentDataSnapshot.forEach((doc) => {
                     comments.push(doc.data());
                 });
-                return {id: doc.id ,boardData: doc.data(), commentData: comments};
+                return {id: doc.id, boardData: doc.data(), commentData: comments};
             }));
             setBoardData(mapData)
         }
@@ -82,21 +76,28 @@ const CommunityPage: React.FC = () => {
                                 <div className='board-item-1'/>
                                 <div className='board-item-2'>
                                     <div className={'board-item-2-tags'}>
-                                        <span> <img className={'summoner-icon'} src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`}/> <span className={'span-writer'}>{item.boardData.writer}</span> · {timeForToday(item.boardData.writeDate?.seconds)} · {item.boardData.category} · 조회 {item.boardData.view}</span>
+                                        <span> <img className={'summoner-icon'}
+                                                    src={`${process.env.PUBLIC_URL}/championImgs/rioticon.png`}/> <span
+                                            className={'span-writer'}>{item.boardData.writer}</span> · {timeForToday(item.boardData.writeDate?.seconds)} · {item.boardData.category} · 조회 {item.boardData.view}</span>
                                     </div>
                                     <Link to={`/community/boardDetail/${item.id}`} className={'board-list'}>
                                         <div className='board-item-2-top'>{item.boardData.title}
-                                            <span className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span>
+                                            <span
+                                                className='comment-leng'>{item.commentData.length !== 0 ? `[${item.commentData.length}]` : null}</span>
                                         </div>
                                     </Link>
                                     <div className={'board-item-2-middle'}>
-                                        <p>{item.boardData.content}</p>
+                                        <p className={'p-10-content'}>{item.boardData.content}</p>
 
                                     </div>
                                     <div className='board-item-2-bottom'>
-                                        {item.boardData.tags ? item.boardData.tags.map((tags:string,idx:number) => {
-                                            return <div key={idx} className={'tags'}><div className={'dot'}></div>{tags}</div>
-                                        }): null}
+                                        <div className={'d-flex-left'}>
+                                            {item.boardData.tags ? item.boardData.tags.map((tags: string, idx: number) => {
+                                                return <div key={idx} className={'tags'}>
+                                                    <div className={'dot'}></div>
+                                                    {tags}</div>
+                                            }) : null}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

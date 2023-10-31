@@ -18,6 +18,7 @@
     &.list{
       padding: 10px;
       border-radius: 10px;
+      border: 1px solid #dadce0;
     }
     .board-item-2{
       width: 95%;
@@ -58,25 +59,9 @@
         font-size: 1.2rem;
         text-align: left;
         padding: 10px 0;
+        border-bottom: 1px solid #dadce0;
       }
-      .board-item-2-bottom{
-        display: flex;
-        text-align: left;
-        padding-right: 12px;
-        margin-top: 5px;
-        .tags{
-          font-size: 1rem;
-          color: #444444;
-          margin-right: 8px;
-          padding: 0.3em 0.7em;
-          border-radius: 6px;
-          background-color: #dadce0;
-          line-height: normal;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-        }
+
         .write-date{
           height: 24px;
           padding-right: 12px;
@@ -97,7 +82,6 @@
       }
     }
   }
-}
 
 .comment-leng{
   padding-left: 5px;
@@ -108,7 +92,7 @@
   width: 6px;
   height: 6px;
   border-radius: 3px;
-  background-color: gray;
+  background-color: #f2f2f2;
   margin-right: 6px;
 }
 
@@ -123,4 +107,43 @@
   .rti--input{
     background-color: #f2f2f2 !important;
   }
+}
+
+.board-item-2-bottom {
+  display: flex;
+  text-align: left;
+  padding-right: 12px;
+  margin-top: 5px;
+  justify-content: space-between;
+  &.detail-tag-list{
+    padding: 20px;
+    padding-bottom: 0;
+  }
+  .d-flex-left{
+    display: flex;
+    flex-direction: row;
+  }
+  .d-flex-right{
+    cursor: pointer;
+    span:hover{
+      color: #328fef;
+    }
+  }
+  .tags {
+    font-size: 1rem;
+    margin-right: 8px;
+    padding: 0.3em 0.7em;
+    border-radius: 6px;
+    background-color: #328fef;
+    color: #f2f2f2;
+    line-height: normal;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.p-10-content{
+  padding-top: 10px;
 }

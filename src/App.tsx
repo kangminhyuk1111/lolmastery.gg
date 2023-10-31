@@ -9,6 +9,7 @@ import CommunityWritePage from "./pages/CommunityWritePage";
 import CommunityDetailPage from "./pages/CommunityDetailPage";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import NoticeDetailPage from "./pages/NoticeDetailPage";
 
 export const timeForToday = (value: number | undefined): string | undefined => {
     if (value !== undefined) {
@@ -45,7 +46,8 @@ function App() {
                 <ButtonAppBar/>
                 <Routes>
                     <Route path="/" element={<MasteryPage/>}/>
-                    <Route path="/notice/*" element={<NoticePage/>}/>
+                    <Route path="/notice/" element={<NoticePage/>}/>
+                    <Route path="/notice/boardDetail/:boardId" element={<NoticeDetailPage/>}/>
                     <Route path="/community/" element={<CommunityPage/>}/>
                     <Route path="/community/write" element={<CommunityWritePage/>}/>
                     <Route path='/community/boardDetail/:boardId' element={<CommunityDetailPage/>}/>

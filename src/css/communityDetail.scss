@@ -1,30 +1,57 @@
 .community-detail-div{
-  min-width: 350px;
-  width: 728px;
+  min-width: 300px;
+  width: 100%;
   margin: 0 auto;
-  padding: 20px;
   margin-top: 20px;
   background-color: #fff;
+  border: 1px solid #dadce0;
+  .writer-data{
+    width: 90%;
+    padding: 20px;
+    text-align: left;
+    padding-bottom: 0px;
+    .board-item-2{
+      span{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .summoner-icon{
+      width: 24px;
+      margin-right: 4px;
+    }
+  }
   h1{
     text-align: left;
-    text-size: 24px;
+    text-size: 2em;
+    padding: 20px;
+  }
+  span{
+    padding-left: 4px;
+    &:first-child{
+      padding-left: 0px;
+    }
   }
   .detail-sub{
     display: flex;
     flex-direction: row;
     padding-top: 6px;
+    padding-left: 20px;
     p{
       text-align: left;
       font-size: 18px;
       font-family: 'Roboto', sans-serif;
     }
-    .p-date, .p-writer{
+    .p-writer{
       padding-left: 10px;
     }
   }
   .detail-content{
     padding-top: 10px;
-    max-width: 400px;
+    width: 90%;
+    padding: 20px;
     text-align: left;
     word-wrap: break-word;
     letter-spacing: -1px;
@@ -48,4 +75,9 @@
     padding-left: 8px;
     color: gray;
   }
+}
+
+.ft-w-500{
+  font-weight: 500;
+  letter-spacing: -1px;
 }
